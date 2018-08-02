@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WalletRequest;
+use App\User;
 use App\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class WalletController extends Controller
 
     public function index()
     {
-        $wallets = Wallet::all();
+        $wallets = User::find(Auth::id())->wallets;
         return view('wallet.index',compact('wallets'));
     }
 
