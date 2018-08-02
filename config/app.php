@@ -15,6 +15,7 @@ return [
 
     'name' => env('APP_NAME', 'QLTC'),
 
+    'avatar' => env('DEFAULT_AVATAR','default.png'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

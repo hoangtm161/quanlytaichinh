@@ -13,13 +13,12 @@
                             </div>
                         @endif
                         <img class="mx-auto d-block" style="border-radius: 50%;max-width: 200px;" src="{{ asset('avatars/'.$user->avatar) }}">
-                        <form style="margin-top: 25px;" method="POST" action="{{route('user.update',['id' => Auth::id()])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
+                        <form style="margin-top: 25px;" method="POST" action="{{route('user.update',['id' => $user->id])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
                                 <div class="col-md-6">
-                                    <input disabled id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ Auth::user()->email }}" required>
-
+                                    <input disabled id="email" type="email" class="form-control" value="{{ Auth::user()->email }}">
                                     @if ($errors->has('email'))
                                         <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('email') }}</strong>
@@ -73,7 +72,7 @@
                                 <label for="dob" class="col-md-4 col-form-label text-md-right">{{ __('Birth Day') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}"  data-date-format="DD MMMM YYYY" value="{{ date('Y-m-d',strtotime(Auth::user()->dob))}}" name="dob"  autofocus>
+                                    <input id="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" value="{{ Auth::user()->dob !== null ? date('Y-m-d',strtotime(Auth::user()->dob)):''  }}" name="dob"  autofocus>
                                     @if ($errors->has('dob'))
                                         <span class="invalid-feedback" role="alert">
                                 <strong>{{ $errors->first('dob') }}</strong>

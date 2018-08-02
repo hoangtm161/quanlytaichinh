@@ -12,7 +12,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <form style="margin-top: 25px;" method="POST" action="{{route('user.update',['id' => Auth::id()])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
+                        <form style="margin-top: 25px;" method="POST" action="{{route('wallet.store')}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="wallet" class="col-md-4 col-form-label text-md-right">{{ __('Wallet Name') }}</label>

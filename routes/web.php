@@ -18,9 +18,13 @@ Route::get('/', function () {
 Route::middleware(['auth',])->group(function () {
     Route::get('user/edit/{id}','UserController@edit')->name('user.edit');
     Route::post('user/update/{id}','UserController@update')->name('user.update');
+
     Route::get('user/password/{id}','UserController@changePassword')->name('user.changePassword');
-    Route::post('user/password/update/{id}','UserController@updatePassword')->name('user.updatePassword');
-    Route::get('/wallet/add','WalletController@add')->name('wallet.add');
+    Route::post('user/password/{id}','UserController@updatePassword')->name('user.updatePassword');
+   //----wallet
+    Route::get('/wallet','WalletController@index')->name('walllet.index');
+    Route::get('/wallet/create','WalletController@create')->name('wallet.create');
+    Route::post('/wallet/','WalletController@store')->name('wallet.store');
 });
 
 Auth::routes();

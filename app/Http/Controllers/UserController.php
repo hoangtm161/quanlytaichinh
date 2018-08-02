@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use Auth;
 use App\User;
 use App\UserActivation;
@@ -25,17 +26,11 @@ class UserController extends Controller
         return view('not_authorization');
     }
 
-    public function update(int $id, Request $request)
+    public function update(int $id, RegisterRequest $request)
     {
         $user = User::findOrFail($id);
         if ($user->can('update',Auth::user())) {
-            $validatedData = $request->validate([
-                'name' => 'max:50|nullable',
-                'address' => 'max:100|nullable',
-                'phone_number' => 'numeric|nullable',
-                'avatar' => 'image|mimes:jpeg,png,jpg|max:2048|nullable',
-                'dob' => 'date|nullable',
-            ]);
+            $validatedData = $request->validated();
 
             if (isset($validatedData['avatar']) && $validatedData['avatar'] !== null ) {
                 $avatar = $validatedData['avatar'];

@@ -72,19 +72,19 @@
                 <ul class="nav">
                     <li class="nav-title">Navigation</li>
                     <li class="nav-item">
-                        <a href="{{ url('/') }}" class="nav-link active">
+                        <a href="{{ url('/') }}" class="nav-link {{ Request::path() ===  '/' ? 'active' : '' }}">
                             <i class="icon icon-speedometer"></i> Dashboard
                         </a>
                     </li>
 
                     <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
+                        <a href="#" class="nav-link nav-dropdown-toggle {{Request::path() === '/wallet/add' ? 'active' : ''}}">
                             <i class="icon icon-target"></i> Wallets <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="{{ route('wallet.add') }}" class="nav-link">
+                                <a href="{{ route('wallet.create') }}" class="nav-link {{Request::path() === '/wallet/add' ? 'active' : ''}}">
                                     <i class="icon icon-target"></i><i class="fas fa-angle-right"></i>
                                     Add new wallet
                                 </a>
