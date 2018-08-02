@@ -15,7 +15,13 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'email',
+        'password',
+        'name',
+        'address',
+        'phone_number',
+        'dob',
+        'avatar'
     ];
 
     /**
@@ -26,4 +32,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function user_activations()
+    {
+        return $this->hasOne('App\UserActivation','users_id_foreign','id');
+    }
 }

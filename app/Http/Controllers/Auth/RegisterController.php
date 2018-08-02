@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\ActivationService;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
-
+use Illuminate\Auth\Events\Registered;
 class RegisterController extends Controller
 {
     /*
@@ -30,14 +33,17 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
+    protected $activationService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ActivationService $activationService)
     {
         $this->middleware('guest');
+        $this->activationService=$activationService;
     }
 
     /**
@@ -49,9 +55,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'name' => 'max:50|nullable',
+            'address' => 'max:100|nullable',
+            'phone_number' => 'numeric|nullable',
+            'avatar' => 'image|mimes:jpeg,png,jpg|max:2048|nullable',
+            'dob' => 'date|nullable',
         ]);
     }
 
@@ -63,10 +73,43 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        //set default avatar
+        $filename="default.png";
+        //if user does not upload avatar, use default
+        if (isset($data['avatar']) && $data['avatar'] !== null ) {
+            $avatar = $data['avatar'];
+            $filename = time().'.'.$avatar->getClientOriginalExtension();
+            $avatar->move(public_path('avatars'),$filename);
+        }
         return User::create([
-            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'name' => $data['name'] === null ? $data['email'] : $data['name'],
+            'address' => $data['address'],
+            'phone_number' => $data['phone_number'],
+            'dob' => $data['dob'],
+            'avatar' => $filename
         ]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        $user = $this->create($request->all());
+        event(new Registered($user));
+
+        $this->activationService->sendActivationEmail($user);
+        Auth::logout();
+        return redirect('/login')->with('status', 'Please check your email and activate your account');
+    }
+
+    public function activateUser(String $activationCode)
+    {
+        if ($user = $this->activationService->activateUser($activationCode)) {
+            auth()->login($user);
+            return redirect('/login');
+        }
+        abort(404);
     }
 }
