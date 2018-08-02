@@ -16,21 +16,23 @@ class WalletController extends Controller
 
     public function index()
     {
-
+        $wallets = Wallet::all();
+        return view('wallet.index',compact('wallets'));
     }
 
     public function create()
     {
-        return view('wallet.add');
+        return view('wallet.create');
     }
 
     public function store(WalletRequest $request)
     {
-        dd($request);
-        Wallet::create([
-            'name' => $request->input('wallet'),
-            'balance' => $request->input('balance'),
-            'users_id_foreign' => Auth::id(),
-        ]);
+        if (Wallet::where('name', $request->input('name'))->first()) {
+            return redirect()->back()->with('status-fail','This name already taken');
+        }
+        $validatedData = $request->all();
+        $validatedData['users_id_foreign']=Auth::id();
+        Wallet::create($validatedData);
+        return redirect()->route('wallet.index');
     }
 }

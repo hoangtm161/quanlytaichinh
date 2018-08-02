@@ -8,9 +8,13 @@ class Wallet extends Model
 {
     protected $table='wallets';
     protected $fillable=[
-        'id',
         'name',
         'balance',
         'users_id_foreign'
     ];
+
+    public function users()
+    {
+        return $this->belongsTo('App\User','users_id_foreign','id');
+    }
 }

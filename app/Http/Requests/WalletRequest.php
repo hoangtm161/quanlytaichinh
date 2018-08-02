@@ -24,7 +24,7 @@ class WalletRequest extends FormRequest
     public function rules()
     {
         return [
-            'wallet' => 'required|max:50|min:8',
+            'name' => 'required|max:50|min:6',
             'balance' => 'required|numeric'
         ];
     }

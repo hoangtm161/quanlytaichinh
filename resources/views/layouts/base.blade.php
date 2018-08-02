@@ -84,6 +84,12 @@
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
+                                <a href="{{ route('wallet.index') }}" class="nav-link">
+                                    <i class="icon icon-target"></i><i class="fas fa-angle-right"></i>
+                                    My wallets
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('wallet.create') }}" class="nav-link {{Request::path() === '/wallet/add' ? 'active' : ''}}">
                                     <i class="icon icon-target"></i><i class="fas fa-angle-right"></i>
                                     Add new wallet

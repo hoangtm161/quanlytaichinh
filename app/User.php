@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\UserActivation','users_id_foreign','id');
     }
+
+    public function wallets()
+    {
+        return $this->hasMany('App\Wallet','users_id_foreign','id');
+    }
 }

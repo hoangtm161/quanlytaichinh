@@ -22,9 +22,9 @@ Route::middleware(['auth',])->group(function () {
     Route::get('user/password/{id}','UserController@changePassword')->name('user.changePassword');
     Route::post('user/password/{id}','UserController@updatePassword')->name('user.updatePassword');
    //----wallet
-    Route::get('/wallet','WalletController@index')->name('walllet.index');
+    Route::get('/wallet','WalletController@index')->name('wallet.index');
     Route::get('/wallet/create','WalletController@create')->name('wallet.create');
-    Route::post('/wallet/','WalletController@store')->name('wallet.store');
+    Route::post('/wallet','WalletController@store')->name('wallet.store');
 });
 
 Auth::routes();
