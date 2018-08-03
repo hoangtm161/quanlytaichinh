@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Routing\Route;
 
-class WalletRequest extends FormRequest
+class TransferRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +21,12 @@ class WalletRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(Route $route)
+    public function rules()
     {
-        if ($route->getActionMethod() === 'update') {
-            return [
-                'name' => 'required|max:50|min:6',
-            ];
-        }
         return [
-            'name' => 'required|max:50|min:6',
-            'balance' => 'required|numeric'
+            'wallets_receive_id_foreign' => 'required|numeric',
+            'description' => 'required|max:100',
+            'amount' => 'required|numeric'
         ];
     }
 }

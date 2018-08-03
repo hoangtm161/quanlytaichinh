@@ -48,7 +48,8 @@
 <div class="flex-center position-ref full-height">
     <div class="content">
         <div class="title">
-            Sorry, you have not permission to access this page.                </div>
+            Sorry, you have not permission to access this page.</div>
+        <a style="text-decoration: none" href="{{ url()->previous() }}">Back to previous page</a>
     </div>
 </div>
 </body>

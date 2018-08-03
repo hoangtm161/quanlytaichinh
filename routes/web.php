@@ -25,6 +25,14 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/wallet','WalletController@index')->name('wallet.index');
     Route::get('/wallet/create','WalletController@create')->name('wallet.create');
     Route::post('/wallet','WalletController@store')->name('wallet.store');
+    Route::get('/wallet/edit/{id}','WalletController@edit')->name('wallet.edit');
+    Route::post('/wallet/{id}','WalletController@update')->name('wallet.update');
+
+    Route::get('/wallet/delete/{id}','WalletController@delete')->name('wallet.delete');
+    //----transfer
+    Route::get('/transfer','TransferController@index')->name('transfer.index');
+    Route::get('/wallet/transfer/{id}','TransferController@create')->name('transfer.create');
+    Route::post('/transfer/{id}','TransferController@store')->name('transfer.store');
 });
 
 Auth::routes();

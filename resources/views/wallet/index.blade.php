@@ -1,20 +1,49 @@
 @extends('layouts.base')
 
 @section('content')
+    <style>
+        .float{
+            position:fixed;
+            width:60px;
+            height:60px;
+            bottom:40px;
+            right:40px;
+            background-color:#0C9;
+            color:#FFF;
+            border-radius:50px;
+            text-align:center;
+            box-shadow: 2px 2px 3px #999;
+        }
+    </style>
+    <a href="{{route('wallet.create')}}" class="float">
+        <i style="margin-top: 22px" class="fa fa-plus my-float"></i>
+    </a>
     @foreach($wallets as $wallet)
-        <div class="col-md-3">
-            <div class="card p-4">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <a href="#">
-                        <div style="display: inline-block">
-                            <i class="fas fa-wallet h4"></i>
-                            <span class="h4 d-block font-weight-normal mb-2">{{$wallet->name}}</span>
-                            <span class="font-weight-light">{{$wallet->balance}}</span>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-light">
+                        <i class="fas fa-credit-card"></i>
+                        &nbsp;&nbsp;&nbsp;
+                        {{ $wallet->name }}
+                        <div class="card-actions">
+                            <a href="{{ route('transfer.create',['id' => $wallet->id]) }}" class="btn">
+                                <i class="fas fa-exchange-alt"></i>
+                            </a>
+
+                            <a href="{{ route('wallet.edit',['id' => $wallet->id]) }}" class="btn">
+                                <i class="fa fa-pencil-alt"></i>
+                            </a>
+                            <a href="{{ route('wallet.delete',['id' => $wallet->id]) }}" class="btn">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
                         </div>
-                    </a>
+                    </div>
+
+                    <div class="card-body">
+                        {{ $wallet->balance }}
+                    </div>
                 </div>
             </div>
-        </div>
     @endforeach
 
 @endsection

@@ -17,4 +17,9 @@ class Wallet extends Model
     {
         return $this->belongsTo('App\User','users_id_foreign','id');
     }
+
+    public function transfers()
+    {
+        return $this->hasMany('App\Transfer','wallets_send_id','id');
+    }
 }
