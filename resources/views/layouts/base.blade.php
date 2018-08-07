@@ -17,8 +17,6 @@
     <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" integrity="sha384-DmABxgPhJN5jlTwituIyzIUk6oqyzf3+XuP7q3VfcWA2unxgim7OSSZKKf0KSsnh" crossorigin="anonymous">
-    {{--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">--}}
-    {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">--}}
 
 </head>
 <body class="sidebar-fixed header-fixed">
@@ -98,53 +96,27 @@
                                     Add new wallet
                                 </a>
                             </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i>
-                                    Update wallet info
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i>
-                                    Delete wallet
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i>
-                                    Money transfer
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
                     <li class="nav-item nav-dropdown">
-                        <a href="#" class="nav-link nav-dropdown-toggle">
+                        <a href="" class="nav-link nav-dropdown-toggle">
                             <i class="icon icon-energy"></i> Categories <i class="fa fa-caret-left"></i>
                         </a>
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Add new category
+                                <a href="{{ route('category.index') }}" class="nav-link">
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i> All category
                                 </a>
                             </li>
 
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Edit category
+                                <a href="{{ route('category.create') }}" class="nav-link">
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i> Add new category
                                 </a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Delete category
-                                </a>
-                            </li>
                         </ul>
                     </li>
 
@@ -155,20 +127,26 @@
 
                         <ul class="nav-dropdown-items">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Add new transaction
+                                <a href="{{ route('transaction.index') }}" class="nav-link">
+                                    <i class="fas fa-angle-right"></i>All transactions
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('transaction.create') }}" class="nav-link">
+                                    <i class="fas fa-angle-right"></i> Add new transaction
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Edit transaction
+                                    <i class="fas fa-angle-right"></i> Edit transaction
                                 </a>
                             </li>
 
                             <li class="nav-item">
                                 <a href="#" class="nav-link">
-                                    <i class="icon icon-energy"></i><i class="fas fa-angle-right"></i> Delete transaction
+                                    <i class="fas fa-angle-right"></i> Delete transaction
                                 </a>
                             </li>
                         </ul>

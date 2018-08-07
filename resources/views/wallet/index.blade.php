@@ -26,6 +26,9 @@
                         &nbsp;&nbsp;&nbsp;
                         {{ $wallet->name }}
                         <div class="card-actions">
+                            <a href="{{ route('wallet.history',['id'=> $wallet->id]) }}">
+                                <i class="fas fa-history"></i>
+                            </a>
                             <a href="{{ route('transfer.create',['id' => $wallet->id]) }}" class="btn">
                                 <i class="fas fa-exchange-alt"></i>
                             </a>

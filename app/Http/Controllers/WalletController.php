@@ -74,4 +74,11 @@ class WalletController extends Controller
         }
         return redirect()->route('wallet.index')->with('status','Delete successfully');
     }
+
+    public function showHistory($id)
+    {
+        $transfers=Transfer::where('wallets_send_id_foreign',$id)
+            ->orWhere('wallets_receive_id_foreign',$id)->get()->toJson();
+        echo $transfers;
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Category;
+use App\Policies\CategoryPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\WalletPolicy;
 use App\User;
@@ -19,7 +21,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
         User::class => UserPolicy::class,
-        Wallet::class => WalletPolicy::class
+        Wallet::class => WalletPolicy::class,
+        Category::class => CategoryPolicy::class
     ];
 
     /**

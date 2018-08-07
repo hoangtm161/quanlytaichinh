@@ -38,7 +38,7 @@ class TransferController extends Controller
         return false;
     }
 
-    public function checkPolicy(String $ability, Wallet $wallet)
+    public function checkPolicy(String $ability, Wallet $wallet): bool
     {
         if (Auth::user()->can($ability, $wallet)) {
             return true;
@@ -63,8 +63,8 @@ class TransferController extends Controller
     public function transfer(int $transferId)
     {
         $transfer = Transfer::findOrFail($transferId);
-        $this->subMoney($transfer->wallets_send_id_foreign,$transfer->amount);
-        $this->addMoney($transfer->wallets_receive_id_foreign,$transfer->amount);
+        $this->subMoney($transfer->wallets_send_id_foreign, $transfer->amount);
+        $this->addMoney($transfer->wallets_receive_id_foreign, $transfer->amount);
     }
 
     public function store(int $id, TransferRequest $request){
@@ -90,7 +90,8 @@ class TransferController extends Controller
         if (!$this->checkPolicy('transfer',$wallet)) {
             return view('not_authorization');
         }
-        $wallets = Wallet::all()->except($id);
+        $wallets = Wallet::where('users_id_foreign', Auth::id())
+            ->where('id',"<>",$id)->get();
         if ($wallet->balance <= 0) {
             return redirect()->back()->with('status-fail','This wallet is not enought money');
         }

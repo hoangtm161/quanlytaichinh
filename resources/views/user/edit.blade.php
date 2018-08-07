@@ -7,11 +7,6 @@
                 <div class="card">
                     <div class="card-header bg-light">User Infomation</div>
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
                         <img class="mx-auto d-block" style="border-radius: 50%;max-width: 200px;" src="{{ asset('avatars/'.$user->avatar) }}">
                         <form style="margin-top: 25px;" method="POST" action="{{route('user.update',['id' => $user->id])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
                             @csrf

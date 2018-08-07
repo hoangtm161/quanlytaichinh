@@ -22,4 +22,9 @@ class Wallet extends Model
     {
         return $this->hasMany('App\Transfer','wallets_send_id','id');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction','wallets_id_foreign','id');
+    }
 }
