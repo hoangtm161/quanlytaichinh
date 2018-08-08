@@ -1,23 +1,6 @@
 @extends('layouts.base')
 
 @section('content')
-    <style>
-        .float{
-            position:fixed;
-            width:60px;
-            height:60px;
-            bottom:40px;
-            right:40px;
-            background-color:#0C9;
-            color:#FFF;
-            border-radius:50px;
-            text-align:center;
-            box-shadow: 2px 2px 3px #999;
-        }
-    </style>
-    <a href="{{route('transaction.create')}}" class="float">
-        <i style="margin-top: 22px" class="fa fa-plus my-float"></i>
-    </a>
     <table class="table">
         <thead class="thead-dark">
         <tr>

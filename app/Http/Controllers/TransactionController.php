@@ -60,7 +60,7 @@ class TransactionController extends Controller
         $wallet->save();
     }
 
-    protected function getType(int $categoryId)
+    protected function getType(int $categoryId): String
     {
         return Category::findOrFail($categoryId)->type;
     }
@@ -82,13 +82,11 @@ class TransactionController extends Controller
     protected function transact(int $transactionId)
     {
         $transaction = Transaction::findOrFail($transactionId);
-
         if ($this->getType($transaction->categories_id_foreign) === $this->category_income) {
             $this->addMoney($transaction->wallets_id_foreign, $transaction->amount);
         } else if ($this->getType($transaction->categories_id_foreign) === $this->category_expense) {
             $this->subMoney($transaction->wallets_id_foreign, $transaction->amount);
         }
-        $transaction->save();
     }
 
     public function store(TransactionRequest $request)

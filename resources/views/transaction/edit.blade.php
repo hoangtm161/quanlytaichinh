@@ -41,7 +41,7 @@
                                         @endforeach
                                         <option value="">----Expense----</option>
                                         @foreach($categories_expense as $category)
-                                            <option {{ $category->id === $transaction->categories_id_foregin ? 'selected':''  }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option {{ $category->id === $transaction->categories_id_foreign ? 'selected':''  }} value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('category'))
