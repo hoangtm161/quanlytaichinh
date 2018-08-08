@@ -104,6 +104,7 @@ class RegisterController extends Controller
 
     public function activateUser(String $activationCode)
     {
+        Auth::logout();
         if ($user = $this->activationService->activateUser($activationCode)) {
             auth()->login($user);
             return redirect('/login');

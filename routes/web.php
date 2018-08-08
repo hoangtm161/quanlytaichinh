@@ -29,7 +29,7 @@ Route::middleware(['auth',])->group(function () {
     Route::post('/wallet/{id}','WalletController@update')->name('wallet.update');
 
     Route::get('/wallet/delete/{id}','WalletController@delete')->name('wallet.delete');
-    Route::get('/transfer/history/{id}','WalletController@showHistory')->name('wallet.history');
+    Route::get('/transaction/history/{id}','WalletController@showHistory')->name('wallet.history');
 
         //----transfer
     Route::get('/transfer','TransferController@index')->name('transfer.index');
@@ -47,8 +47,10 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/transaction/create','TransactionController@create')->name('transaction.create');
     Route::post('/transaction/','TransactionController@store')->name('transaction.store');
     Route::get('/transaction/edit/{id}','TransactionController@edit')->name('transaction.edit');
-    Route::post('/transaction/update/{id}','TransactionController@update')->name('transcation.update');
-    Route::get('/transaction/delete/{id}','TranscationController@delete')->name('transcation.delete');
+    Route::post('/transaction/update/{id}','TransactionController@update')->name('transaction.update');
+    Route::get('/transaction/delete/{id}','TransactionController@delete')->name('transaction.delete');
+    Route::get('transaction/category/{id}','TransactionController@showTransactionByCategory')->name('transaction.category');
+    Route::post('transaction/time','TransactionController@showTransactionByTime')->name('transaction.time');
 
 });
 

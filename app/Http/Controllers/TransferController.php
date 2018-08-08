@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Http\Requests\TransferRequest;
 use App\Transfer;
 use App\User;
@@ -17,11 +18,17 @@ class TransferController extends Controller
 
     public function index()
     {
-        $myWallets = $this->findWalletByUserID(Auth::id());
-        foreach ($myWallets as $wallet) {
-            echo Transfer::where('wallets_send_id_foreign',$wallet->id)
-                ->orWhere('wallets_receive_id_foreign',$wallet->id)->get();
-        }
+        $transfers = Transfer::with(['send_wallets','receive_wallets'])
+            ->whereIn('wallets_send_id_foreign', function($query){
+            $query->select('id')
+                ->from('wallets')
+                ->where('users_id_foreign', Auth::id());
+            })->orWhereIn('wallets_receive_id_foreign', function($query){
+            $query->select('id')
+                ->from('wallets')
+                ->where('users_id_foreign', Auth::id());
+            })->get();
+        return view('wallet.transfer_index', compact('transfers'));
     }
 
     public function findWalletByUserID(int $id)
@@ -91,7 +98,7 @@ class TransferController extends Controller
             return view('not_authorization');
         }
         $wallets = Wallet::where('users_id_foreign', Auth::id())
-            ->where('id',"<>",$id)->get();
+            ->where('id','<>', $id)->get();
         if ($wallet->balance <= 0) {
             return redirect()->back()->with('status-fail','This wallet is not enought money');
         }

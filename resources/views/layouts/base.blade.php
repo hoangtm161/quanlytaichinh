@@ -96,6 +96,12 @@
                                     Add new wallet
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('transfer.index') }}" class="nav-link {{Request::path() === '/wallet/add' ? 'active' : ''}}">
+                                    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><i class="fas fa-angle-right"></i>
+                                    View all transfers
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -175,7 +181,6 @@
                 </ul>
             </nav>
         </div>
-
         <div class="content">
             <div class="container-fluid">
                 @if (session('status'))

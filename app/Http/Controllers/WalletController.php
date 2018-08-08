@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WalletRequest;
+use App\Transaction;
 use App\User;
 use App\Wallet;
 use Illuminate\Support\Facades\Auth;
@@ -10,9 +11,14 @@ use App\Transfer;
 
 class WalletController extends Controller
 {
+    private $category_income;
+    private $category_expense;
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->category_income = config('app.category_income');
+        $this->category_expense = config('app.category_expense');
     }
 
     public function index()
@@ -63,11 +69,12 @@ class WalletController extends Controller
 
     public function delete($id)
     {
-        $wallet=Wallet::findOrFail($id);
+        $wallet = Wallet::findOrFail($id);
         if (Auth::user()->can('delete',$wallet)) {
-            $transfers=Transfer::where('wallets_send_id_foreign',$id)
+            $transfers = Transfer::where('wallets_send_id_foreign',$id)
                 ->orWhere('wallets_receive_id_foreign',$id)->get();
-            if (count($transfers)>0) {
+            $transaction = Transaction::where('wallets_id_foreign', $id)->get();
+            if (count($transfers) > 0 || count($transaction) > 0) {
                 return redirect()->route('wallet.index')->with('status-fail','Cannot delete this wallet');
             }
             $wallet->delete();
@@ -75,10 +82,13 @@ class WalletController extends Controller
         return redirect()->route('wallet.index')->with('status','Delete successfully');
     }
 
-    public function showHistory($id)
+    public function showHistory(int $walletId)
     {
-        $transfers=Transfer::where('wallets_send_id_foreign',$id)
-            ->orWhere('wallets_receive_id_foreign',$id)->get()->toJson();
-        echo $transfers;
+        $transactions= Transaction::whereIn('wallets_id_foreign', function($query){
+            $query->select('id')
+                ->from('wallets')
+                ->where('users_id_foreign', Auth::id());
+        })->where('wallets_id_foreign',$walletId)->get();
+        return view('transaction.index', compact('transactions'));
     }
 }

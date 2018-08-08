@@ -47,8 +47,8 @@
                             <div class="form-group row">
                                 <label for="type" class="col-md-4 col-form-label text-md-right">{{ __('Type') }}</label>
                                 <div class="col-md-6" style="margin-top: 5px;">
-                                    <label><input type="radio" value="0" name="type">&nbsp;Income</label>&nbsp;&nbsp;&nbsp;
-                                    <label><input type="radio" value="1" name="type">&nbsp;Expense</label>
+                                    <label><input type="radio" value="0" name="type" checked required>&nbsp;Income</label>&nbsp;&nbsp;&nbsp;
+                                    <label><input type="radio" value="1" name="type" required>&nbsp;Expense</label>
                                 @if ($errors->has('name'))
                                         <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('name') }}</strong>

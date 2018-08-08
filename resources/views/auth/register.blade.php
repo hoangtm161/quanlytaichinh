@@ -120,7 +120,7 @@
                                     <input id="dob" type="date" class="form-control{{ $errors->has('dob') ? ' is-invalid' : '' }}" name="dob"  autofocus>
                                     @if ($errors->has('date'))
                                         <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $errors->first('phone_number') }}</strong>
+                                        <strong>{{ $errors->first('dob') }}</strong>
                                     </span>
                                     @endif
                                 </div>

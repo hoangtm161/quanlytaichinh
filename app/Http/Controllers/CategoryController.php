@@ -3,21 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth');
+        $this->category_income = config('app.category_income');
+        $this->category_expense = config('app.category_expense');
     }
     public function index()
     {
-        $categories_income = Category::where('type',0)
+        //0 = income, 1 = expense
+        $categories_income = Category::where('type',$this->category_income)
             ->where('users_id_foreign', Auth::id())->get();
-        $categories_expense = Category::where('type',1)
+        $categories_expense = Category::where('type',$this->category_expense)
             ->where('users_id_foreign', Auth::id())->get();
 
         return view('category.index',compact('categories_income','categories_expense'));
@@ -32,7 +37,8 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|max:50'
+            'name' => 'required|max:50',
+            'type' => 'required',
         ]);
         Category::create([
             'name' => $validatedData['name'],
@@ -58,7 +64,8 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         if (Auth::user()->can('update',$category)) {
             $validatedData = $request->validate([
-                'name' => 'required|max:50'
+                'name' => 'required|max:50',
+                'type' => 'required'
             ]);
             $category->update([
                 'name' => $validatedData['name'],
@@ -73,7 +80,12 @@ class CategoryController extends Controller
 
     public function delete(int $id)
     {
-        return redirect()->route('category.index')->with('status-fail','Disabled');
+        $category = Category::findOrFail($id);
+        if (count(Transaction::where('categories_id_foreign', $id)->get())) {
+            return redirect()->route('category.index')->with('status-fail','Disabled');
+        }
+        $category->delete();
+        return redirect()->route('category.index')->with('status','Category deleted');
     }
 
 }

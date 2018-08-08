@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Routing\Route;
 
 class TransactionRequest extends FormRequest
 {
@@ -21,8 +22,16 @@ class TransactionRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Route $route)
     {
+        if ($route->getActionMethod() === 'update') {
+            return [
+                'amount' => 'required|numeric',
+                'description' => 'required|max:100',
+                'transaction_at' => '|required|date',
+                'categories_id_foreign' => 'required|numeric',
+            ];
+        }
         return [
             'amount' => 'required|numeric',
             'description' => 'required|max:100',

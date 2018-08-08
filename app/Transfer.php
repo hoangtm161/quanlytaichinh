@@ -16,11 +16,11 @@ class Transfer extends Model
 
     public function send_wallets()
     {
-        return $this->belongsTo('App\Wallet','wallets_send_id','id');
+        return $this->belongsTo('App\Wallet','wallets_send_id_foreign','id');
     }
 
     public function receive_wallets()
     {
-        return $this->belongsTo('App\Wallet','wallets_receive_id','id');
+        return $this->belongsTo('App\Wallet','wallets_receive_id_foreign','id');
     }
 }
