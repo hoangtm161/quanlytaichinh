@@ -70,6 +70,7 @@ section {
 }
 
 body {
+  !important;
   margin: 0;
   font-family: "Raleway", sans-serif;
   font-size: 0.9rem;
@@ -77,7 +78,7 @@ body {
   line-height: 1.6;
   color: #212529;
   text-align: left;
-  background-color: #f5f8fa;
+  background-color: #FFFFFF;
 }
 
 [tabindex="-1"]:focus {

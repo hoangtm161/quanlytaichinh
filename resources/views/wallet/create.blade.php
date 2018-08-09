@@ -7,16 +7,6 @@
                 <div class="card">
                     <div class="card-header bg-light">Add new wallet</div>
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @if (session('status-fail'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('status-fail') }}
-                            </div>
-                        @endif
                         <form style="margin-top: 25px;" method="POST" action="{{route('wallet.store')}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">

@@ -57,7 +57,7 @@
                                 <div class="col-md-6">
                                     <select disabled class="form-control">
                                         @foreach($wallets as $wallet)
-                                            <option {{ $transaction->wallets_id_foreign === $wallet->id ? 'selected':'' }} value="{{ $wallet->id }}">{{ $wallet->name.'-:'.$wallet->balance }}</option>
+                                            <option value="{{ $wallet->id }}">{{ $wallet->name.': '.number_format($wallet->balance) }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('wallets'))

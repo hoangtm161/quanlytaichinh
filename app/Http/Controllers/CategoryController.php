@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Transaction;
-use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    private $category_income;
+    private $category_expense;
 
     public function __construct()
     {
@@ -17,21 +18,21 @@ class CategoryController extends Controller
         $this->category_income = config('app.category_income');
         $this->category_expense = config('app.category_expense');
     }
+
     public function index()
     {
-        //0 = income, 1 = expense
-        $categories_income = Category::where('type',$this->category_income)
+        $categories_income = Category::where('type', $this->category_income)
             ->where('users_id_foreign', Auth::id())->get();
-        $categories_expense = Category::where('type',$this->category_expense)
+        $categories_expense = Category::where('type', $this->category_expense)
             ->where('users_id_foreign', Auth::id())->get();
 
-        return view('category.index',compact('categories_income','categories_expense'));
+        return view('category.index', compact('categories_income', 'categories_expense'));
     }
 
     public function create()
     {
         $categories = Category::all()->where('users_id_foreign', Auth::id());
-        return view('category.create',compact('categories'));
+        return view('category.create', compact('categories'));
     }
 
     public function store(Request $request)
@@ -53,8 +54,8 @@ class CategoryController extends Controller
     {
         $categories = Category::all()->where('users_id_foreign', Auth::id());
         $current_category = Category::findOrFail($id);
-        if (Auth::user()->can('update',$current_category)) {
-            return view('category.edit',compact('current_category','categories'));
+        if (Auth::user()->can('update', $current_category)) {
+            return view('category.edit', compact('current_category', 'categories'));
         }
         return view('not_authorization');
     }
@@ -62,7 +63,7 @@ class CategoryController extends Controller
     public function update(int $id, Request $request)
     {
         $category = Category::findOrFail($id);
-        if (Auth::user()->can('update',$category)) {
+        if (Auth::user()->can('update', $category)) {
             $validatedData = $request->validate([
                 'name' => 'required|max:50',
                 'type' => 'required'
@@ -82,10 +83,10 @@ class CategoryController extends Controller
     {
         $category = Category::findOrFail($id);
         if (count(Transaction::where('categories_id_foreign', $id)->get())) {
-            return redirect()->route('category.index')->with('status-fail','Disabled');
+            return redirect()->route('category.index')->with('status-fail', 'Cannot delete this category');
         }
         $category->delete();
-        return redirect()->route('category.index')->with('status','Category deleted');
+        return redirect()->route('category.index')->with('status', 'Category deleted');
     }
 
 }

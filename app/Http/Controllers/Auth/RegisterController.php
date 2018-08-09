@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Auth\Events\Registered;
+
 class RegisterController extends Controller
 {
     /*
@@ -42,13 +43,13 @@ class RegisterController extends Controller
     public function __construct(ActivationService $activationService)
     {
         $this->middleware('guest');
-        $this->activationService=$activationService;
+        $this->activationService = $activationService;
     }
 
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     /*protected function validator(array $data)
@@ -67,19 +68,19 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \App\User
      */
     protected function create(RegisterRequest $registerRequest)
     {
         //set default avatar
-        $filename=config('app.avatar');
+        $filename = config('app.avatar');
         //if user does not upload avatar, use default
         $validatedData = $registerRequest->validated();
-        if (isset($validatedData['avatar']) && $validatedData['avatar'] !== null ) {
+        if (isset($validatedData['avatar']) && $validatedData['avatar'] !== null) {
             $avatar = $validatedData['avatar'];
-            $filename = time().'.'.$avatar->getClientOriginalExtension();
-            $avatar->move(public_path('avatars'),$filename);
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->move(public_path('avatars'), $filename);
         }
         return User::create([
             'email' => $validatedData['email'],

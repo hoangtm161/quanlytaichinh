@@ -45,9 +45,9 @@
                                             <option value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                     </select>
-                                    @if ($errors->has('category'))
+                                    @if ($errors->has('categories_id_foreign'))
                                         <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('category') }}</strong>
+                                    <strong>{{ $errors->first('categories_id_foreign') }}</strong>
                                 </span>
                                     @endif
                                 </div>
@@ -58,7 +58,7 @@
                                 <div class="col-md-6">
                                     <select name="wallets_id_foreign" class="form-control">
                                         @foreach($wallets as $wallet)
-                                            <option value="{{ $wallet->id }}">{{ $wallet->name.'-:'.$wallet->balance }}</option>
+                                            <option value="{{ $wallet->id }}">{{ $wallet->name.': '.number_format($wallet->balance) }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('wallets'))

@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return redirect()->route('wallet.index');
+    return redirect()->route('transaction.index');
 })->middleware('auth');
 
 Route::middleware(['auth',])->group(function () {
@@ -49,8 +49,11 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/transaction/edit/{id}','TransactionController@edit')->name('transaction.edit');
     Route::post('/transaction/update/{id}','TransactionController@update')->name('transaction.update');
     Route::get('/transaction/delete/{id}','TransactionController@delete')->name('transaction.delete');
-    Route::get('transaction/category/{id}','TransactionController@showTransactionByCategory')->name('transaction.category');
-    Route::post('transaction/time','TransactionController@showTransactionByTime')->name('transaction.time');
+    Route::get('/transaction/category/{id}','TransactionController@showTransactionByCategory')->name('transaction.category');
+    Route::post('/transaction/time','TransactionController@showTransactionByTime')->name('transaction.time');
+    Route::get('/transaction/timeline',function(){
+       return view('transaction.timeline');
+    });
 
 });
 

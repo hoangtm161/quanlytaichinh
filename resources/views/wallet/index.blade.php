@@ -43,7 +43,7 @@
                     </div>
 
                     <div class="card-body">
-                        {{ $wallet->balance }}
+                        {{ number_format($wallet->balance) }}
                     </div>
                 </div>
             </div>

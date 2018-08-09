@@ -28,7 +28,7 @@ class TransactionController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->orderByDesc('transaction_at')->get();
+            })->orderByDesc('transaction_at')->orderByDesc('id')->get();
 
         return view('transaction.index', compact('transactions'));
     }
@@ -40,7 +40,6 @@ class TransactionController extends Controller
 
         $categories_expense = Category::where('users_id_foreign', Auth::id())
             ->where('type', $this->category_expense)->get();
-
         $wallets = Wallet::where('users_id_foreign', Auth::id())->get();
 
         return view('transaction.create', compact('categories_income', 'categories_expense', 'wallets'));
@@ -65,26 +64,25 @@ class TransactionController extends Controller
         return Category::findOrFail($categoryId)->type;
     }
 
-    protected function revertTransaction(int $transactionId)
+    protected function revertTransaction(int $transactionId): void
     {
         $transaction = Transaction::findOrFail($transactionId);
 
         if ($this->getType($transaction->categories_id_foreign) === $this->category_expense) {
             $this->addMoney($transaction->wallets_id_foreign, $transaction->amount);
-        } else {
-            if ($this->getType($transaction->categories_id_foreign) === $this->category_income) {
-                $this->subMoney($transaction->wallets_id_foreign, $transaction->amount);
-            }
+        } elseif ($this->getType($transaction->categories_id_foreign) === $this->category_income) {
+            $this->subMoney($transaction->wallets_id_foreign, $transaction->amount);
         }
+
         $transaction->save();
     }
 
-    protected function transact(int $transactionId)
+    protected function transact(int $transactionId): void
     {
         $transaction = Transaction::findOrFail($transactionId);
         if ($this->getType($transaction->categories_id_foreign) === $this->category_income) {
             $this->addMoney($transaction->wallets_id_foreign, $transaction->amount);
-        } else if ($this->getType($transaction->categories_id_foreign) === $this->category_expense) {
+        } elseif ($this->getType($transaction->categories_id_foreign) === $this->category_expense) {
             $this->subMoney($transaction->wallets_id_foreign, $transaction->amount);
         }
     }
@@ -99,18 +97,26 @@ class TransactionController extends Controller
 
     public function edit(int $id)
     {
+        $transaction = Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallets_id_foreign);
+        if (!Auth::user()->can('delete', $wallet)) {
+            return view('not_authorization');
+        }
         $categories_income = Category::where('users_id_foreign', Auth::id())
             ->where('type', $this->category_income)->get();
         $categories_expense = Category::where('users_id_foreign', Auth::id())
             ->where('type', $this->category_expense)->get();
         $wallets = Wallet::where('users_id_foreign', Auth::id())->get();
-        $transaction = Transaction::findOrFail($id);
         return view('transaction.edit', compact('transaction', 'categories_income', 'categories_expense', 'wallets'));
     }
 
     public function update(int $id, TransactionRequest $request)
     {
         $transaction = Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallets_id_foreign);
+        if (!Auth::user()->can('delete', $wallet)) {
+            return view('not_authorization');
+        }
         $this->revertTransaction($id);
         $validatedData = $request->validated();
         $transaction->update($validatedData);
@@ -121,6 +127,10 @@ class TransactionController extends Controller
     public function delete(int $id)
     {
         $transaction = Transaction::findOrFail($id);
+        $wallet = Wallet::findOrFail($transaction->wallets_id_foreign);
+        if (!Auth::user()->can('delete', $wallet)) {
+            return view('not_authorization');
+        }
         $this->revertTransaction($id);
         $transaction->delete();
         return redirect()->route('transaction.index')->with('status', 'Transaction deleted');
@@ -134,6 +144,7 @@ class TransactionController extends Controller
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
             })->where('categories_id_foreign', $categoryId)->get();
+
         return view('transaction.index', compact('transactions'));
     }
 
