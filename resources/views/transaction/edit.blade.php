@@ -37,7 +37,7 @@
                                 <div class="col-md-6">
                                     <select name="categories_id_foreign" class="form-control">
                                         @foreach($categories_income as $category)
-                                            <option {{ $category->id === $transaction->categories_id_foregin ? 'selected':''  }} value="{{ $category->id }}">{{ $category->name }}</option>
+                                            <option {{ $category->id === $transaction->categories_id_foreign ? 'selected':''  }} value="{{ $category->id }}">{{ $category->name }}</option>
                                         @endforeach
                                         <option value="">----Expense----</option>
                                         @foreach($categories_expense as $category)
@@ -55,7 +55,7 @@
                             <div class="form-group row">
                                 <label for="wallet" class="col-md-4 col-form-label text-md-right">{{ __('Wallet') }}</label>
                                 <div class="col-md-6">
-                                    <select disabled class="form-control">
+                                    <select name="wallets_id_foreign" class="form-control">
                                         @foreach($wallets as $wallet)
                                             <option value="{{ $wallet->id }}">{{ $wallet->name.': '.number_format($wallet->balance) }}</option>
                                         @endforeach

@@ -18,18 +18,20 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                @if(Route::getCurrentRoute()->getName() === 'transaction.category'
-                 || Route::getCurrentRoute()->getName() === 'wallet.history')
-                    <a style="text-decoration: none" href="{{ route('transaction.index') }}"><i class="fas fa-chevron-left mb-3"></i>&nbsp;All transactions</a>
-                @endif
+                <a style="text-decoration: none" href="{{ route('transaction.index') }}"><i class="fas fa-chevron-left mb-3"></i>&nbsp;All transactions</a>
+                @if(count($transactions) === 0)
+                    <h4 style="text-align: center" class="mt-3">There no transaction
+                    </h4>
+                @else
                 <div class="card">
-                    <div class="card-header bg-light">All transanctions {{isset($wallet->name) ? 'of '.$wallet->name:''}}</div>
+                    <div class="card-header bg-light">All transanctions</div>
                     <div class="card-body">
-                        @if(Route::getCurrentRoute()->getName() === 'wallet.history')
-                            <label class="badge badge-success">Current balance: </label>
-                            &nbsp;&nbsp;&nbsp;<span>{{ number_format($wallet->balance) }}</span>
-                        @endif
-                        @if(Route::getCurrentRoute()->getName() === 'transaction.index')
+                        <div class="col-md-12 mb-3" style="text-align: center">
+                            <label class="badge badge-success">Total
+                                income: </label>&nbsp;&nbsp;&nbsp;<span>{{ number_format($totalIncome) }}</span>
+                            <label style="margin-left: 20px" class="badge badge-danger">Total
+                                expense: </label>&nbsp;&nbsp;&nbsp;<span>{{ number_format($totalExpense) }}</span>
+                        </div>
                         <form style="margin-bottom: 20px;" class="form-inline col-md-12"
                               action="{{ route('transaction.time') }}" enctype="multipart/form-data" method="post">
                             @csrf
@@ -81,7 +83,6 @@
                             </div>
 
                         </form>
-                            @endif
                         <table class="table table-hover table-responsive-md border rounded">
                             <thead class="thead-light">
                             <tr>
@@ -130,10 +131,10 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $transactions->links() }}
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
     <a href="{{route('transaction.create')}}" class="float">

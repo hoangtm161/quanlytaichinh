@@ -24,14 +24,6 @@ class TransactionRequest extends FormRequest
      */
     public function rules(Route $route)
     {
-        if ($route->getActionMethod() === 'update') {
-            return [
-                'amount' => 'required|numeric',
-                'description' => 'required|max:100',
-                'transaction_at' => '|required|date',
-                'categories_id_foreign' => 'required|numeric',
-            ];
-        }
         return [
             'amount' => 'required|numeric',
             'description' => 'required|max:100',

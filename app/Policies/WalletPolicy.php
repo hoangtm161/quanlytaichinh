@@ -19,7 +19,7 @@ class WalletPolicy
      */
     public function view(User $user, Wallet $wallet)
     {
-        return $user->id === $wallet->users_foreign_id;
+        return $user->id === $wallet->users_id_foreign ? true:false;
     }
 
     /**

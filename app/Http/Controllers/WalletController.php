@@ -87,8 +87,9 @@ class WalletController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->where('wallets_id_foreign', $walletId)->get();
-            return view('transaction.index', compact('transactions'));
+            })->where('wallets_id_foreign', $walletId)->orderByDesc('transaction_at')
+                ->orderByDesc('id')->paginate(10);
+            return view('transaction.index', compact('transactions', 'wallet'));
         }
         return view('not_authorization');
     }

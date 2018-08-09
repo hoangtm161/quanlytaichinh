@@ -6,8 +6,10 @@ use App\Category;
 use App\Http\Requests\TransactionRequest;
 use App\Transaction;
 use App\Wallet;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TransactionController extends Controller
 {
@@ -28,7 +30,7 @@ class TransactionController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->orderByDesc('transaction_at')->orderByDesc('id')->get();
+            })->orderByDesc('transaction_at')->orderByDesc('id')->paginate(10);
 
         return view('transaction.index', compact('transactions'));
     }
@@ -45,14 +47,14 @@ class TransactionController extends Controller
         return view('transaction.create', compact('categories_income', 'categories_expense', 'wallets'));
     }
 
-    protected function addMoney(int $walletId, float $amount)
+    protected function addMoney(int $walletId, float $amount): void
     {
         $wallet = Wallet::findOrFail($walletId);
         $wallet->balance += $amount;
         $wallet->save();
     }
 
-    protected function subMoney(int $walletId, float $amount)
+    protected function subMoney(int $walletId, float $amount): void
     {
         $wallet = Wallet::findOrFail($walletId);
         $wallet->balance -= $amount;
@@ -114,7 +116,7 @@ class TransactionController extends Controller
     {
         $transaction = Transaction::findOrFail($id);
         $wallet = Wallet::findOrFail($transaction->wallets_id_foreign);
-        if (!Auth::user()->can('delete', $wallet)) {
+        if (!Auth::user()->can('update', $wallet)) {
             return view('not_authorization');
         }
         $this->revertTransaction($id);
@@ -136,6 +138,17 @@ class TransactionController extends Controller
         return redirect()->route('transaction.index')->with('status', 'Transaction deleted');
     }
 
+    public function getTotalMoney(Collection $transactions, String $type): float
+    {
+        $total = 0;
+        foreach ($transactions as $transaction){
+            if ($this->getType($transaction->categories_id_foreign) === $type) {
+                $total += $transaction->amount;
+            }
+        }
+        return $total;
+    }
+
     public function showTransactionByCategory(int $categoryId)
     {
         $transactions = Transaction::with('categories', 'wallets')
@@ -143,9 +156,12 @@ class TransactionController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->where('categories_id_foreign', $categoryId)->get();
+            })->where('categories_id_foreign', $categoryId)->orderByDesc('transaction_at')
+            ->orderByDesc('id')->get();
 
-        return view('transaction.index', compact('transactions'));
+        $totalIncome = $this->getTotalMoney($transactions, $this->category_income);
+        $totalExpense = $this->getTotalMoney($transactions, $this->category_expense);
+        return view('transaction.time_report', compact('transactions','totalIncome','totalExpense'));
     }
 
     public function showTransactionByTime(Request $request)
@@ -162,7 +178,10 @@ class TransactionController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->whereBetween('transaction_at', [$from, $end])->get();
-        return view('transaction.index', compact('transactions'));
+            })->whereBetween('transaction_at', [$from, $end])->orderByDesc('transaction_at')
+            ->orderByDesc('id')->get();
+        $totalIncome = $this->getTotalMoney($transactions, $this->category_income);
+        $totalExpense = $this->getTotalMoney($transactions, $this->category_expense);
+        return view('transaction.time_report', compact('transactions','totalIncome','totalExpense'));
     }
 }

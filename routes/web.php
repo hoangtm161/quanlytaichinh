@@ -27,11 +27,9 @@ Route::middleware(['auth',])->group(function () {
     Route::post('/wallet','WalletController@store')->name('wallet.store');
     Route::get('/wallet/edit/{id}','WalletController@edit')->name('wallet.edit');
     Route::post('/wallet/{id}','WalletController@update')->name('wallet.update');
-
     Route::get('/wallet/delete/{id}','WalletController@delete')->name('wallet.delete');
     Route::get('/transaction/history/{id}','WalletController@showHistory')->name('wallet.history');
-
-        //----transfer
+    //----transfer
     Route::get('/transfer','TransferController@index')->name('transfer.index');
     Route::get('/wallet/transfer/{id}','TransferController@create')->name('transfer.create');
     Route::post('/transfer/{id}','TransferController@store')->name('transfer.store');
@@ -51,14 +49,9 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/transaction/delete/{id}','TransactionController@delete')->name('transaction.delete');
     Route::get('/transaction/category/{id}','TransactionController@showTransactionByCategory')->name('transaction.category');
     Route::post('/transaction/time','TransactionController@showTransactionByTime')->name('transaction.time');
-    Route::get('/transaction/timeline',function(){
-       return view('transaction.timeline');
-    });
-
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('user/activation/{activationCode}','Auth\RegisterController@activateUser')->name('user.active');
-
