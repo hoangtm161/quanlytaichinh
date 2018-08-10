@@ -11,7 +11,7 @@
                             <label for="wallet" class="col-md-4 col-form-label text-md-right">{{ __('Send Wallet') }}</label>
                             <div class="col-md-6">
                                 <input id="" type="text" class="form-control{{ $errors->has('') ? ' is-invalid' : '' }}" value="{{ $wallet->name }}" disabled>
-                                <span>Balance </span><label class="badge badge-danger">{{ $wallet->balance }}</label>
+                                <span>Balance </span><label class="badge badge-danger">{{ number_format($wallet->balance) }}</label>
                             </div>
                         </div>
                         <form style="margin-top: 10px;" method="POST" action="{{ route('transfer.store',['id' => $wallet->id ]) }}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">

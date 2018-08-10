@@ -18,7 +18,7 @@ class WalletController extends Controller
 
     public function index()
     {
-        $wallets = User::find(Auth::id())->wallets;
+        $wallets = Wallet::where('users_id_foreign', Auth::id())->get();
         return view('wallet.index', compact('wallets'));
     }
 

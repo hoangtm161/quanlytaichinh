@@ -24,7 +24,7 @@
                     </h4>
                 @else
                 <div class="card">
-                    <div class="card-header bg-light">All transanctions</div>
+                    <div class="card-header bg-light">All transanctions{{ \Illuminate\Support\Facades\Route::getCurrentRoute()->getName() === 'transaction.time' ? 'on last 30 days':'' }}</div>
                     <div class="card-body">
                         <div class="col-md-12 mb-3" style="text-align: center">
                             <label class="badge badge-success">Total

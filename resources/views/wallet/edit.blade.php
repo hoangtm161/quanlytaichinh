@@ -7,17 +7,7 @@
                 <div class="card">
                     <div class="card-header bg-light">Edit wallet</div>
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        @if (session('status-fail'))
-                            <div class="alert alert-danger" role="alert">
-                                {{ session('status-fail') }}
-                            </div>
-                        @endif
-                        <form style="margin-top: 25px;" method="POST" action="{{route('wallet.update',['id' => Auth::id()])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
+                        <form style="margin-top: 25px;" method="POST" action="{{route('wallet.update',['id' => $wallet->id])}}" aria-label="{{ __('Register') }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group row">
                                 <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Wallet Name') }}</label>

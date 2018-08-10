@@ -9,7 +9,6 @@ use App\Wallet;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class TransactionController extends Controller
 {
@@ -109,7 +108,8 @@ class TransactionController extends Controller
         $categories_expense = Category::where('users_id_foreign', Auth::id())
             ->where('type', $this->category_expense)->get();
         $wallets = Wallet::where('users_id_foreign', Auth::id())->get();
-        return view('transaction.edit', compact('transaction', 'categories_income', 'categories_expense', 'wallets'));
+        return view('transaction.edit',
+            compact('transaction', 'categories_income', 'categories_expense', 'wallets'));
     }
 
     public function update(int $id, TransactionRequest $request)
@@ -141,7 +141,7 @@ class TransactionController extends Controller
     public function getTotalMoney(Collection $transactions, String $type): float
     {
         $total = 0;
-        foreach ($transactions as $transaction){
+        foreach ($transactions as $transaction) {
             if ($this->getType($transaction->categories_id_foreign) === $type) {
                 $total += $transaction->amount;
             }
@@ -161,7 +161,7 @@ class TransactionController extends Controller
 
         $totalIncome = $this->getTotalMoney($transactions, $this->category_income);
         $totalExpense = $this->getTotalMoney($transactions, $this->category_expense);
-        return view('transaction.time_report', compact('transactions','totalIncome','totalExpense'));
+        return view('transaction.time_report', compact('transactions', 'totalIncome', 'totalExpense'));
     }
 
     public function showTransactionByTime(Request $request)
@@ -182,6 +182,6 @@ class TransactionController extends Controller
             ->orderByDesc('id')->get();
         $totalIncome = $this->getTotalMoney($transactions, $this->category_income);
         $totalExpense = $this->getTotalMoney($transactions, $this->category_expense);
-        return view('transaction.time_report', compact('transactions','totalIncome','totalExpense'));
+        return view('transaction.time_report', compact('transactions', 'totalIncome', 'totalExpense'));
     }
 }
