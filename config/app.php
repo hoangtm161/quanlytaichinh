@@ -16,6 +16,9 @@ return [
     'name' => env('APP_NAME', 'QLTC'),
 
     'avatar' => env('DEFAULT_AVATAR','default.png'),
+    'category_income' =>env('CATEGORY_INCOME','0'),
+    'category_expense' =>env('CATEGORY_EXPENSE','1'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

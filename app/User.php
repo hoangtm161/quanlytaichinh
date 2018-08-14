@@ -28,6 +28,7 @@ class User extends Authenticatable
      * The attributes that should be hidden for arrays.
      *
      * @var array
+     *
      */
     protected $hidden = [
         'password', 'remember_token',
@@ -36,5 +37,15 @@ class User extends Authenticatable
     public function user_activations()
     {
         return $this->hasOne('App\UserActivation','users_id_foreign','id');
+    }
+
+    public function wallets()
+    {
+        return $this->hasMany('App\Wallet','users_id_foreign','id');
+    }
+
+    public function categories()
+    {
+        return $this->hasMany('App\Category','users_id_foreign','id');
     }
 }
