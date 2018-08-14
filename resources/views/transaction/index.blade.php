@@ -121,7 +121,7 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
                                         &nbsp;&nbsp;&nbsp;&nbsp;
-                                        <a class="text-danger"
+                                        <a class="text-danger" onclick="return confirm('Are you sure to delete this transaction?')"
                                            href="{{ route('transaction.delete',['id'=>$transaction->id]) }}">
                                             <i class="fas fa-trash"></i>
                                         </a>

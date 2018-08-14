@@ -47,11 +47,13 @@ Route::middleware(['auth',])->group(function () {
     Route::get('/transaction/edit/{id}','TransactionController@edit')->name('transaction.edit');
     Route::post('/transaction/update/{id}','TransactionController@update')->name('transaction.update');
     Route::get('/transaction/delete/{id}','TransactionController@delete')->name('transaction.delete');
-    Route::get('/transaction/category/{id}','TransactionController@showTransactionByCategory')->name('transaction.category');
+    Route::get('/transaction/category/{id}','TransactionController@showTransactionByCategory')
+        ->name('transaction.category');
     Route::post('/transaction/time','TransactionController@showTransactionByTime')->name('transaction.time');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('user/activation/{activationCode}','Auth\RegisterController@activateUser')->name('user.active');
+Route::get('user/activation/{activationCode}','Auth\RegisterController@activateUser')
+    ->name('user.active')->middleware('guest');

@@ -15,6 +15,7 @@ class TransactionController extends Controller
     private $category_income;
     private $category_expense;
 
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -29,7 +30,7 @@ class TransactionController extends Controller
                 $query->select('id')
                     ->from('wallets')
                     ->where('users_id_foreign', Auth::id());
-            })->orderByDesc('transaction_at')->orderByDesc('id')->paginate(10);
+            })->orderByDesc('transaction_at')->orderByDesc('id')->paginate(7);
 
         return view('transaction.index', compact('transactions'));
     }
@@ -170,7 +171,7 @@ class TransactionController extends Controller
         $end = $request->input('end');
 
         if ($from > $end) {
-            return redirect()->route('transaction.index')->with('status-fail',
+            return redirect()->back()->with('status-fail',
                 'Start time must before or equal end time');
         }
         $transactions = Transaction::with('categories', 'wallets')

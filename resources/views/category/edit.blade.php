@@ -65,7 +65,7 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Save change') }}
                                     </button>
-                                    <a href="{{ route('category.delete',['id' => $current_category->id ]) }}" class="m-1 btn btn-danger">
+                                    <a href="{{ route('category.delete',['id' => $current_category->id ]) }}" onclick="return confirm('Are you sure to delete this category?')" class="m-1 btn btn-danger">
                                         {{ __('Delete') }}
                                     </a>
                                 </div>

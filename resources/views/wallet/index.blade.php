@@ -36,7 +36,7 @@
                             <a href="{{ route('wallet.edit',['id' => $wallet->id]) }}" class="btn">
                                 <i class="fa fa-pencil-alt"></i>
                             </a>
-                            <a href="{{ route('wallet.delete',['id' => $wallet->id]) }}" class="btn">
+                            <a href="{{ route('wallet.delete',['id' => $wallet->id]) }}" onclick="return confirm('Are you sure to delete this wallet?')" class="btn">
                                 <i class="fas fa-trash-alt"></i>
                             </a>
                         </div>
